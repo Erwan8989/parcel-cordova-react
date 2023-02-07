@@ -27,21 +27,41 @@ function App() {
     */
 
     var [nbVehicule, setNbVehicule] = useState(0);
+    const [vehicules, setVehicules] = useState([]);
+    
+
     if(nbVehicule == 0) {
         let response = window.prompt('Combien de vehicule voulez vous ?');
         setNbVehicule(response)
     }
-
-    const generateVehicule = () => { return {roue : random(2,8), nbPassager : random(1, 4)}}
-    const vehicules = [];
-    for(var i= 0; i< nbVehicule; i++) vehicules.push(generateVehicule())
     
+    const generateVehicule = () => { return {roue : random(2,8), nbPassager : random(1, 4)}}
+
+    useEffect(() => {
+        var vehiculeTemp = [];
+        for(var i= 0; i< nbVehicule; i++) vehiculeTemp.push(generateVehicule());
+        setVehicules([...vehiculeTemp]);
+    }, [nbVehicule]);
+
+    useEffect(() => {
+        console.log(vehicules.length);
+        if(vehicules.length < 6) {
+            return;
+        }
+
+        alert('Il y a beaucoup de véhicules affiché')
+    }, [vehicules.length]);
+    
+    const addVehicule = () => {
+        setVehicules([...vehicules, generateVehicule()])
+    }
     /*
     const vehiculesJsx = [<Vehicule roue={4} nbPassager={2}/>]
     vehiculesJsx.map(vehicule => <>{vehicule}</>);*/
     return (
         <div style={{width : "300px", margin : 'auto', marginTop : '20px'}}>
-            <ListVehicules vehicules={vehicules}/>
+            <ListVehicules vehicules={vehicules} state={[vehicules, setVehicules]}/>
+            <button onClick={addVehicule}>Add Vehicule</button>
         </div>
     )
 }

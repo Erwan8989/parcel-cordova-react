@@ -1,8 +1,8 @@
 import Vehicule from "./Vehicule"
-function ListVehicules({ vehicules }) {
+function ListVehicules({ vehicules, state }) {
 
     return (
-        vehicules.map((vehicule,index) => <Vehicule {...vehicule} key={index}/>)
+        vehicules.map((vehicule,index) => <Vehicule {...vehicule} key={index} state={state} index={index}/>)
     )
 }
 
